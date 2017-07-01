@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -55,9 +57,29 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    Document doc;
-    Elements lis;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu , menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.refresh){
+            matchList.clear();
+            matchlst.setAdapter(null);
+            new MatchTask().execute();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
     class MatchTask extends AsyncTask<String, String, String> {
+        Document doc;
+        Elements lis;
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
